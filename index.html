@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Snake Game</h1>
+<div id="gameWrapper">
+  <canvas id="gameCanvas" width="600" height="600"></canvas>
+  <button class="autoplay-btn" id="autoToggleBtn" onclick="toggleAutoPlay()">AUTOPLAY: OFF</button>
+  <button id="playAgainBtn" class="play-again-btn" onclick="resetGame()">Play Again</button>
+</div>
+<div id="score">Score: 0</div>
+
+<script src="script.js"></script>
+</body>
+</html>
