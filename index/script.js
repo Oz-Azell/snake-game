@@ -1,6 +1,9 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+const gameOverSound = document.getElementById("gameOverSound");
+const bgMusic = document.getElementById("bgMusic");
+
 let snake = [{ x: 10, y: 10 }];
 let direction = { x: 0, y: 0 };
 let food = { x: 15, y: 15 };
@@ -9,8 +12,6 @@ let aiActive = false;
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw snake
   snake.forEach((segment, index) => {
     ctx.fillStyle = index === 0 ? 'limegreen' : 'lightgreen';
     ctx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
@@ -18,7 +19,6 @@ function draw() {
     ctx.strokeRect(segment.x * 20, segment.y * 20, 18, 18);
   });
 
-  // Draw food
   ctx.fillStyle = 'red';
   ctx.fillRect(food.x * 20, food.y * 20, 18, 18);
 }
@@ -41,9 +41,11 @@ function update() {
     head.y < 0 || head.y >= canvas.height / 20 ||
     collisionWithSelf(head)
   ) {
-    // Removed alert line
     document.getElementById('playAgainBtn').style.display = 'block';
     clearInterval(gameInterval);
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    gameOverSound.play();
   }
 }
 
@@ -75,6 +77,8 @@ function resetGame() {
   document.getElementById('playAgainBtn').style.display = 'none';
   placeFood();
   gameInterval = setInterval(gameLoop, 100);
+  bgMusic.currentTime = 0;
+  bgMusic.play();
 }
 
 function aiMove() {
@@ -129,4 +133,9 @@ function gameLoop() {
 
 document.addEventListener('keydown', changeDirection);
 placeFood();
-console.log("azell");
+
+// 🔓 Unlock sound on first interaction
+document.addEventListener('keydown', () => {
+  bgMusic.play().catch(() => {});
+  gameOverSound.play().catch(() => {});
+}, { once: true });
